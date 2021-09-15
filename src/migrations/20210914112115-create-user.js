@@ -21,7 +21,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       status: {
-        type: Sequelize.STRING
+        type: Sequelize.ENUM('Belum Masuk', 'Kerja', 'Istirahat', 'Pulang')
       },
       createdAt: {
         allowNull: false,

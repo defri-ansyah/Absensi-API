@@ -15,7 +15,7 @@ const editProfile = (req, res) => {
   )
     .then((User) => {
       User.password = undefined
-      if (users) {
+      if (User) {
         res.status(200).json({
           'status': 'OK',
           'messages': 'Data Berhasil di update'

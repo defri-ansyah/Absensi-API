@@ -58,4 +58,37 @@ const getDetailAll = (req, res) => {
     })
 }
 
-module.exports = { editProfile, getDetailAll }
+const changeStatus = (req, res) => {
+  const { status } = req.body
+  models.User.update({
+    status
+  },
+  {
+    where: {
+      id: req.userId
+    }
+  })
+  .then((User) => {
+    if (User) {
+      res.status(200).json({
+        'status': 'OK',
+        'messages': 'Data Berhasil di update'
+      })
+    } else {
+      res.status(400).json({
+        'status': '400',
+        'messages': 'Data tidak berhasil di update',
+        'data': {}
+      })
+    }
+  })
+  .catch((err) => {
+    res.status(500).json({
+      'status': 'ERROR',
+      'messages': err.message,
+      'data': null,
+    })
+  })
+}
+
+module.exports = { editProfile, getDetailAll, changeStatus }

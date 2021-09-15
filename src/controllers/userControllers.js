@@ -37,4 +37,23 @@ const editProfile = (req, res) => {
     })
 }
 
-module.exports = { editProfile }
+const getDetailAll = (req, res) => {
+  models.User.findAll({})
+    .then((User) => {
+      User.password = undefined
+        res.status(200).json({
+          'status': '200',
+          'messages': 'Get detail success',
+          'data': User
+        })
+    })
+    .catch((err) => {
+      res.status(500).json({
+        'status': 'ERROR',
+        'messages': err.message,
+        'data': null,
+      })
+    })
+}
+
+module.exports = { editProfile, getDetailAll }

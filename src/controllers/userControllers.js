@@ -38,7 +38,9 @@ const editProfile = (req, res) => {
 }
 
 const getDetailAll = (req, res) => {
-  models.User.findAll({})
+  models.User.findAll({
+    attributes: {exclude: ['password']}
+  })
     .then((User) => {
       User.password = undefined
         res.status(200).json({

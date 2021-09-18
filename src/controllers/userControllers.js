@@ -118,13 +118,6 @@ const detailUser = (req, res) => {
               'data': User
             })
           })
-          .catch((err) => {
-            res.status(500).json({
-              'status': 'ERROR',
-              'messages': err.message,
-              'data': null,
-            })
-          })
       } else {
         res.status(400).json({
           'status': '400',

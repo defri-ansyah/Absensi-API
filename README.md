@@ -55,7 +55,7 @@ SECRET_KEY = YOUR_SECRET_KEY_FOR_JWT
 ```
 $ npm run dev
 ```
-## Link Collection Postman
+## Postman Collection
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://www.getpostman.com/collections/c7ca0abfc9af11c4efcb)
 
 ## API Endpoint

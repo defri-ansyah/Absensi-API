@@ -24,7 +24,8 @@ const login = (req, res) => {
                 if (user) {
                   res.status(200).json({
                     'status': 'OK',
-                    'messages': 'User berhasil ditambahkan, silahkan login kembali',
+                    'messages': 'User belum ada sebelumnya, user sudah dibuatkan',
+                    'data': user
                   })
                 }
               })
@@ -58,7 +59,6 @@ const login = (req, res) => {
       }
     }
     })
-
     .catch((err) => {
       res.status(500).json({
         'status': 'ERROR',

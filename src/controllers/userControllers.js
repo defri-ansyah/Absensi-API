@@ -48,9 +48,14 @@ const homePage = async (req, res) => {
   try {
     const User = await models.User.findAll({
       attributes: { exclude: ['password'] },
+      where: {
+        fullname: {
+          [Op.ne]: null
+        }
+      }
     })
     const response = await User.map(async (item) => {
-      const test = await models.Absen.findOne(
+      item.dataValues.currentAbsen = await models.Absen.findOne(
         {
           where: {
             user_id: item.id,
@@ -65,7 +70,6 @@ const homePage = async (req, res) => {
         attributes: { exclude: ['password'] }
       }
       )
-      item.dataValues.currentAbsen = test.dataValues
       return item
     })
     Promise.all(response)

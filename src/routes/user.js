@@ -5,6 +5,5 @@ const usersController = require('../controllers/userControllers');
 
 router.patch('/edit-profile', verifyAccess, usersController.editProfile);
 router.get('/detail', usersController.getDetailAll);
-router.patch('/edit-status', verifyAccess, usersController.changeStatus);
 
 module.exports = router;

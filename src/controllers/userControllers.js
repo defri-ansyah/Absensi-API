@@ -2,6 +2,7 @@ const express = require('express');
 const models = require('../models');
 const moment = require('moment');
 const { Sequelize } = require('../models');
+const user = require('../models/user');
 const Op = Sequelize.Op;
 
 const editProfile = (req, res) => {
@@ -68,12 +69,69 @@ const homePage = async (req, res) => {
       return item
     })
     Promise.all(response)
-    .then((results) => {
-      res.status(200).json({
-        'status': '200',
-        'messages': 'Get detail success',
-        'data': results
+      .then((results) => {
+        res.status(200).json({
+          'status': '200',
+          'messages': 'Get detail success',
+          'data': results
+        })
       })
+      .catch((err) => {
+        res.status(500).json({
+          'status': 'ERROR',
+          'messages': err.message,
+          'data': null,
+        })
+      })
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+const detailUser = (req, res) => {
+  models.User.findOne(
+    {
+      attributes: { exclude: ['password'] },
+      where: {
+        id: req.params.userId
+      }
+    }
+  )
+    .then(async (User) => {
+      const Absen = await models.Absen.findAll(
+        {
+          where: {
+            user_id: req.params.userId
+          },
+          order: [
+            ['createdAt', 'DESC']
+          ]
+        }
+      )
+      if (User) {
+        Promise.all(Absen)
+          .then((history) => {
+            User.dataValues.history = history
+            res.status(200).json({
+              'status': 'OK',
+              'messages': 'Berhasil mendapatkan data',
+              'data': User
+            })
+          })
+          .catch((err) => {
+            res.status(500).json({
+              'status': 'ERROR',
+              'messages': err.message,
+              'data': null,
+            })
+          })
+      } else {
+        res.status(400).json({
+          'status': '400',
+          'messages': 'Tidak berhasil mendapatkan data',
+          'data': {}
+        })
+      }
     })
     .catch((err) => {
       res.status(500).json({
@@ -82,9 +140,6 @@ const homePage = async (req, res) => {
         'data': null,
       })
     })
-  } catch (e) {
-    console.log(e);
-  }
 }
 
-module.exports = { editProfile, homePage }
+module.exports = { editProfile, homePage, detailUser }
